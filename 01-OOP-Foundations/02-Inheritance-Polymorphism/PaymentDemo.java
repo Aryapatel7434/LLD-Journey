@@ -1,46 +1,95 @@
-
 import java.math.BigDecimal;
 
 public class PaymentDemo {
-        private static final Payment CardPayment = null;
 
-        public static void main(String[]args) throws IllegalAccessException{
-            User user=new User("U101", "Arya");
-            Payment upiPayment=new Payment("P101", user, new BigDecimal("5000"));
-            PaymentMethod upi=new UpiPayment();
+    public static void main(String[] args) throws IllegalAccessException {
 
-            upi.pay(upiPayment);
+        User user = new User("U101", "Arya");
 
-            System.out.println("UPI Status:"+upiPayment.getStatus());
+        // =========================
+        // 1. UPI PAYMENT
+        // =========================
 
-            PaymentMethod card = new CardPayment();
+        Payment upiPayment =
+                new Payment("P101", user, new BigDecimal("5000"));
 
-            card.pay(CardPayment);
+        PaymentMethod upi = new UpiPayment();
 
-            System.out.println("Card Status:"+CardPayment.getStatus());
+        upi.pay(upiPayment);
 
-            Payment walletPayment=new Payment("P103", user,new BigDecimal("3000"));
+        System.out.println("UPI Status: " +
+                upiPayment.getStatus());
 
-            PaymentMethod wallet=new WalletPayment(new BigDecimal("10000"));
 
-            wallet.pay(walletPayment);
+        // =========================
+        // 2. CARD PAYMENT
+        // =========================
 
-            System.out.println("Wallet Status:"+walletPayment.getStatus());
+        Payment cardPayment =
+                new Payment("P102", user, new BigDecimal("7000"));
 
-            System.out.println("Remaining Wallet Balance:"+((WalletPayment)wallet).getWalletBalance());
+        PaymentMethod card = new CardPayment();
 
-            Payment cardPayment = null;
-            card.refund(cardPayment);
+        card.pay(cardPayment);
 
-            System.out.println("Card Status After Refund:"+cardPayment.getStatus());
+        System.out.println("Card Status: " +
+                cardPayment.getStatus());
 
-            try{
-                Payment largPayment=new Payment("P104", user, new BigDecimal("200000"));
-                upi.pay(largPayment);
-            }
-            catch(IllegalArgumentException e){
-                System.out.println("Payment Rejected: "+e.getMessage());
-            }
-            
+
+        // =========================
+        // 3. WALLET PAYMENT
+        // =========================
+
+        Payment walletPayment =
+                new Payment("P103", user, new BigDecimal("3000"));
+
+        PaymentMethod wallet =
+                new WalletPayment(new BigDecimal("10000"));
+
+        wallet.pay(walletPayment);
+
+        System.out.println("Wallet Status: " +
+                walletPayment.getStatus());
+
+        System.out.println(
+                "Remaining Wallet Balance: " +
+                ((WalletPayment) wallet).getWalletBalance()
+        );
+
+
+        // =========================
+        // 4. REFUND
+        // =========================
+
+        card.refund(cardPayment);
+
+        System.out.println(
+                "Card Status After Refund: " +
+                cardPayment.getStatus()
+        );
+
+
+        // =========================
+        // 5. PAYMENT LIMIT TEST
+        // =========================
+
+        try {
+
+            Payment largePayment =
+                    new Payment(
+                            "P104",
+                            user,
+                            new BigDecimal("200000")
+                    );
+
+            upi.pay(largePayment);
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println(
+                    "Payment Rejected: " +
+                    e.getMessage()
+            );
         }
+    }
 }
