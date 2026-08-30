@@ -1,0 +1,7 @@
+{
+    "java.project.sourcePaths": [
+        "03-UML-Class-Diagram",
+        "01-Abstraction-Encapsulation/abstractionencapsulation",
+        "02-Inheritance-Polymorphism"
+    ]
+}
