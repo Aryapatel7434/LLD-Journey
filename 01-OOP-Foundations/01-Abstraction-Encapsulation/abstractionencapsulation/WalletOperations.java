@@ -1,7 +1,7 @@
 
 import java.math.BigDecimal;
 
-public interface Wallet {
+public interface WalletOperations {
 
     void deposit(BigDecimal amount);
 
