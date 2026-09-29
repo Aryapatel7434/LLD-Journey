@@ -1,0 +1,6 @@
+/**
+ * PaymentMethos
+ */
+public class PaymentMethos {
+
+}
